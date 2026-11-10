@@ -1,0 +1,504 @@
+{
+  "info": {
+    "name": "Inventory Management System API",
+    "description": "Postman Collection untuk UTS Framework Programming - Studi Kasus 1: Inventory Management System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "inventory-uts"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/api",
+      "type": "string"
+    },
+    {
+      "key": "categoryId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "supplierId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "productId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "warehouseId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "stockMovementId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "Create Category",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/categories", "host": ["{{baseUrl}}"], "path": ["categories"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Elektronik\",\n  \"description\": \"Kategori produk elektronik\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Response has id', () => {",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json).to.have.property('id');",
+                  "  pm.collectionVariables.set('categoryId', json.id);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get All Categories",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/categories", "host": ["{{baseUrl}}"], "path": ["categories"] }
+          }
+        },
+        {
+          "name": "Get Category by ID",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/categories/{{categoryId}}", "host": ["{{baseUrl}}"], "path": ["categories", "{{categoryId}}"] }
+          }
+        },
+        {
+          "name": "Update Category",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/categories/{{categoryId}}", "host": ["{{baseUrl}}"], "path": ["categories", "{{categoryId}}"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Elektronik & Gadget\",\n  \"description\": \"Kategori produk elektronik dan gadget\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Category",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{baseUrl}}/categories/{{categoryId}}", "host": ["{{baseUrl}}"], "path": ["categories", "{{categoryId}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Suppliers",
+      "item": [
+        {
+          "name": "Create Supplier",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/suppliers", "host": ["{{baseUrl}}"], "path": ["suppliers"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"PT Elektronik Jaya\",\n  \"contactPerson\": \"Budi Santoso\",\n  \"email\": \"budi@elektronikjaya.com\",\n  \"phone\": \"+62211234567\",\n  \"address\": \"Jl. Sudirman No. 123, Jakarta\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Response has id', () => {",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json).to.have.property('id');",
+                  "  pm.collectionVariables.set('supplierId', json.id);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get All Suppliers",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/suppliers", "host": ["{{baseUrl}}"], "path": ["suppliers"] }
+          }
+        },
+        {
+          "name": "Get Supplier by ID",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/suppliers/{{supplierId}}", "host": ["{{baseUrl}}"], "path": ["suppliers", "{{supplierId}}"] }
+          }
+        },
+        {
+          "name": "Update Supplier",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/suppliers/{{supplierId}}", "host": ["{{baseUrl}}"], "path": ["suppliers", "{{supplierId}}"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"PT Elektronik Jaya Abadi\",\n  \"contactPerson\": \"Budi Santoso\",\n  \"email\": \"budi@elektronikjayaabadi.com\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Supplier",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{baseUrl}}/suppliers/{{supplierId}}", "host": ["{{baseUrl}}"], "path": ["suppliers", "{{supplierId}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "Create Product",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/products", "host": ["{{baseUrl}}"], "path": ["products"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Laptop Gaming ASUS ROG\",\n  \"sku\": \"LAP-GAM-ASUS-001\",\n  \"description\": \"Laptop gaming performa tinggi\",\n  \"price\": 15000000,\n  \"minStock\": 5,\n  \"maxStock\": 50,\n  \"categoryId\": \"{{categoryId}}\",\n  \"supplierId\": \"{{supplierId}}\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Response has id', () => {",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json).to.have.property('id');",
+                  "  pm.collectionVariables.set('productId', json.id);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get All Products",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/products", "host": ["{{baseUrl}}"], "path": ["products"] }
+          }
+        },
+        {
+          "name": "Get Product by ID",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/products/{{productId}}", "host": ["{{baseUrl}}"], "path": ["products", "{{productId}}"] }
+          }
+        },
+        {
+          "name": "Update Product",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/products/{{productId}}", "host": ["{{baseUrl}}"], "path": ["products", "{{productId}}"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"price\": 14500000,\n  \"minStock\": 3\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Product",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{baseUrl}}/products/{{productId}}", "host": ["{{baseUrl}}"], "path": ["products", "{{productId}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Warehouses",
+      "item": [
+        {
+          "name": "Create Warehouse",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/warehouses", "host": ["{{baseUrl}}"], "path": ["warehouses"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Gudang Utama Jakarta\",\n  \"address\": \"Jl. Gatot Subroto No. 456\",\n  \"city\": \"Jakarta Selatan\",\n  \"manager\": \"Ahmad Wijaya\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Response has id', () => {",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json).to.have.property('id');",
+                  "  pm.collectionVariables.set('warehouseId', json.id);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get All Warehouses",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/warehouses", "host": ["{{baseUrl}}"], "path": ["warehouses"] }
+          }
+        },
+        {
+          "name": "Get Warehouse by ID",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/warehouses/{{warehouseId}}", "host": ["{{baseUrl}}"], "path": ["warehouses", "{{warehouseId}}"] }
+          }
+        },
+        {
+          "name": "Update Warehouse",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/warehouses/{{warehouseId}}", "host": ["{{baseUrl}}"], "path": ["warehouses", "{{warehouseId}}"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"manager\": \"Ahmad Wijaya (Manager)\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Warehouse",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{baseUrl}}/warehouses/{{warehouseId}}", "host": ["{{baseUrl}}"], "path": ["warehouses", "{{warehouseId}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Stock Movements",
+      "item": [
+        {
+          "name": "Stock IN - Barang Masuk",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/stock-movements", "host": ["{{baseUrl}}"], "path": ["stock-movements"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"IN\",\n  \"referenceNumber\": \"IN-2024-001\",\n  \"movementDate\": \"2024-01-15\",\n  \"notes\": \"Pembelian stok awal laptop gaming\",\n  \"warehouseId\": \"{{warehouseId}}\",\n  \"items\": [\n    {\n      \"productId\": \"{{productId}}\",\n      \"quantity\": 10,\n      \"unitPrice\": 12000000\n    }\n  ]\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Response has id', () => {",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json).to.have.property('id');",
+                  "  pm.collectionVariables.set('stockMovementId', json.id);",
+                  "});",
+                  "pm.test('Product stock updated', () => {",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json.items[0].product.currentStock).to.eql(10);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get All Stock Movements",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/stock-movements", "host": ["{{baseUrl}}"], "path": ["stock-movements"] }
+          }
+        },
+        {
+          "name": "Get Stock Report",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/stock-movements/report/stock", "host": ["{{baseUrl}}"], "path": ["stock-movements", "report", "stock"] }
+          }
+        },
+        {
+          "name": "Get Stock Movement by ID",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/stock-movements/{{stockMovementId}}", "host": ["{{baseUrl}}"], "path": ["stock-movements", "{{stockMovementId}}"] }
+          }
+        },
+        {
+          "name": "Stock OUT - Barang Keluar",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/stock-movements", "host": ["{{baseUrl}}"], "path": ["stock-movements"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"OUT\",\n  \"referenceNumber\": \"OUT-2024-001\",\n  \"movementDate\": \"2024-01-20\",\n  \"notes\": \"Penjualan ke customer\",\n  \"warehouseId\": \"{{warehouseId}}\",\n  \"items\": [\n    {\n      \"productId\": \"{{productId}}\",\n      \"quantity\": 2,\n      \"unitPrice\": 15000000\n    }\n  ]\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Stock reduced', () => {",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json.items[0].product.currentStock).to.eql(8);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Update Stock Movement",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/stock-movements/{{stockMovementId}}", "host": ["{{baseUrl}}"], "path": ["stock-movements", "{{stockMovementId}}"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notes\": \"Diupdate: Pembelian stok awal laptop gaming - revisi\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Stock Movement (Rollback Stock)",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{baseUrl}}/stock-movements/{{stockMovementId}}", "host": ["{{baseUrl}}"], "path": ["stock-movements", "{{stockMovementId}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Stock Movement Items",
+      "item": [
+        {
+          "name": "Get All Stock Movement Items",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/stock-movement-items", "host": ["{{baseUrl}}"], "path": ["stock-movement-items"] }
+          }
+        },
+        {
+          "name": "Get Items by Stock Movement ID",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/stock-movement-items/movement/{{stockMovementId}}", "host": ["{{baseUrl}}"], "path": ["stock-movement-items", "movement", "{{stockMovementId}}"] }
+          }
+        },
+        {
+          "name": "Get Stock Movement Item by ID",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/stock-movement-items/{{itemId}}", "host": ["{{baseUrl}}"], "path": ["stock-movement-items", "{{itemId}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Validation & Error Cases",
+      "item": [
+        {
+          "name": "Create Category - Duplicate Name (409)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/categories", "host": ["{{baseUrl}}"], "path": ["categories"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Elektronik\",\n  \"description\": \"Duplicate\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Create Product - Invalid Category (400)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/products", "host": ["{{baseUrl}}"], "path": ["products"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test Product\",\n  \"sku\": \"TEST-001\",\n  \"price\": 100000,\n  \"categoryId\": \"invalid-uuid\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Create Product - Duplicate SKU (409)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/products", "host": ["{{baseUrl}}"], "path": ["products"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Laptop Gaming ASUS ROG\",\n  \"sku\": \"LAP-GAM-ASUS-001\",\n  \"price\": 100000\n}"
+            }
+          }
+        },
+        {
+          "name": "Stock OUT - Insufficient Stock (400)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/stock-movements", "host": ["{{baseUrl}}"], "path": ["stock-movements"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"OUT\",\n  \"referenceNumber\": \"OUT-ERR-001\",\n  \"movementDate\": \"2024-01-25\",\n  \"warehouseId\": \"{{warehouseId}}\",\n  \"items\": [\n    {\n      \"productId\": \"{{productId}}\",\n      \"quantity\": 1000,\n      \"unitPrice\": 15000000\n    }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Non-existent Category (404)",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/categories/00000000-0000-0000-0000-000000000000", "host": ["{{baseUrl}}"], "path": ["categories", "00000000-0000-0000-0000-000000000000"] }
+          }
+        },
+        {
+          "name": "Validation Error - Missing Required Fields (400)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/categories", "host": ["{{baseUrl}}"], "path": ["categories"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"Missing name field\"\n}"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
