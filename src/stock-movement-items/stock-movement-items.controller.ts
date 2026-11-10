@@ -32,7 +32,7 @@ export class StockMovementItemsController {
   @ApiOperation({ summary: 'Ambil item by ID' })
   @ApiParam({ name: 'id', format: 'uuid' })
   @ApiResponse({ status: 200, description: 'Detail item', type: StockMovementItem })
-  @ApiResponse({ status: 404, description: 'Item tidak ditemukan' })
+  @ApiResponse({ status: 404, description: 'Item tidak ditemukan atau tidak ada' })
   async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<StockMovementItem> {
     return this.itemsService.findOne(id);
   }
