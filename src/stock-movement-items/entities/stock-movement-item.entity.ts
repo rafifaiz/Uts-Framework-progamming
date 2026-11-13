@@ -7,8 +7,6 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { StockMovement } from '../../stock-movements/entities/stock-movement.entity.js';
-import { Product } from '../../products/entities/product.entity.js';
 
 @Entity('stock_movement_items')
 export class StockMovementItem {
@@ -21,20 +19,20 @@ export class StockMovementItem {
   @Column({ type: 'decimal', precision: 12, scale: 2 })
   unitPrice: number;
 
-  @ManyToOne(() => StockMovement, (stockMovement) => stockMovement.items, {
+  @ManyToOne('StockMovement', 'items', {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'stockMovementId' })
-  stockMovement: StockMovement;
+  stockMovement: any;
 
   @Column({ type: 'uuid' })
   stockMovementId: string;
 
-  @ManyToOne(() => Product, (product) => product.stockMovementItems, {
+  @ManyToOne('Product', 'stockMovementItems', {
     onDelete: 'RESTRICT',
   })
   @JoinColumn({ name: 'productId' })
-  product: Product;
+  product: any;
 
   @Column({ type: 'uuid' })
   productId: string;

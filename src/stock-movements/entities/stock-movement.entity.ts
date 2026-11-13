@@ -9,7 +9,6 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Warehouse } from '../../warehouses/entities/warehouse.entity.js';
-import { StockMovementItem } from '../../stock-movement-items/entities/stock-movement-item.entity.js';
 
 export enum StockMovementType {
   IN = 'IN',
@@ -33,21 +32,19 @@ export class StockMovement {
   @Column({ type: 'text', nullable: true })
   notes: string;
 
-  @ManyToOne(() => Warehouse, (warehouse) => warehouse.stockMovements, {
+  @ManyToOne('Warehouse', 'stockMovements', {
     onDelete: 'RESTRICT',
   })
   @JoinColumn({ name: 'warehouseId' })
-  warehouse: Warehouse;
+  warehouse: any;
 
   @Column({ type: 'uuid' })
   warehouseId: string;
 
-  @OneToMany(
-    () => StockMovementItem,
-    (stockMovementItem) => stockMovementItem.stockMovement,
-    { cascade: true },
-  )
-  items: StockMovementItem[];
+  @OneToMany('StockMovementItem', 'stockMovement', {
+    cascade: true,
+  })
+  items: any[];
 
   @CreateDateColumn()
   createdAt: Date;

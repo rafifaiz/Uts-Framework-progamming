@@ -6,7 +6,6 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Product } from '../../products/entities/product.entity.js';
 
 @Entity('suppliers')
 export class Supplier {
@@ -28,8 +27,8 @@ export class Supplier {
   @Column({ type: 'text', nullable: true })
   address: string;
 
-  @OneToMany(() => Product, (product) => product.supplier)
-  products: Product[];
+  @OneToMany('Product', 'supplier')
+  products: any[];
 
   @CreateDateColumn()
   createdAt: Date;
